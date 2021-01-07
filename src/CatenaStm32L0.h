@@ -32,6 +32,8 @@ Author:
 
 #include <Arduino_LoRaWAN_network.h>
 
+#include <MCCI_Sigfox.h>
+
 namespace McciCatena {
 
 class CatenaStm32L0 : public CatenaStm32
@@ -44,6 +46,9 @@ public:
 
         // forward reference
         class LoRaWAN;
+
+	// Sigfox binding
+	class Sigfox /* forward */;
 
         // start the Stm32L0 level
         virtual bool begin(void) override;
@@ -153,6 +158,37 @@ protected:
         // TODO(tmm@mcci.com) -- the following are not used but are always
         // hanging around even when we have better ways to do things.
         //
+private:
+        CatenaStm32L0           *m_pCatena;
+        };
+
+class CatenaStm32L0::Sigfox : public MCCI_Sigfox,
+                               public McciCatena::cPollableObject
+        {
+public:
+        using Super = MCCI_Sigfox;
+
+        /*
+        || the constructor.
+        */
+        Sigfox() {};
+
+        /*
+        || the begin function loads data from the local
+        || platform's stable storage and initializes
+        || the connection.
+        */
+        virtual bool begin(CatenaStm32L0 *pCatena);
+
+        virtual void poll() { this->Super::loop(); };
+
+protected:
+        /*
+        || we have to provide these for the lower level
+        */
+        virtual bool GetSigfoxConfiguringInfo(
+                        MCCI_Catena_Sigfox::SigfoxConfiguringInfo *
+                        ) override;
 private:
         CatenaStm32L0           *m_pCatena;
         };
