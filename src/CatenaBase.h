@@ -47,6 +47,9 @@ Author:
 
 #include <Arduino_LoRaWAN.h>
 
+#include <MCCI_Sigfox.h>
+#include <Catena_Sigfox_wapper.h>
+
 #if ! (defined(ARDUINO_LORAWAN_VERSION) && ARDUINO_LORAWAN_VERSION >= ARDUINO_LORAWAN_VERSION_CALC(0,6,0,20))
 # error Arduino_LoRaWAN library is out of date. Check ARDUINO_LORAWAN_VERSION.
 #endif

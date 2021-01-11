@@ -102,6 +102,8 @@ CatenaBase::GetSigfoxConfiguringInfo(
 		return false;
 		}
 
+	/* cFram::Cursor framSigfoxCredentials(pFram); */
+
 	cFram::Cursor framDevID(pFram),
 		      framPAC(pFram),
 		      framKey(pFram),
@@ -117,6 +119,9 @@ CatenaBase::GetSigfoxConfiguringInfo(
 	    framRegion.locate(cFramStorage::vItemDefs[cFramStorage::kRegion]) &&
 	    framEncryption.locate(cFramStorage::vItemDefs[cFramStorage::kEncryption]))
 		fResult = true;
+
+	/* if (framSigfoxCredentials.locate(cFramStorage::vItemDefs[cFramStorage::kSigfoxCredentials]))
+		fResult = true; */
 
 	if (! fResult)
 		{
@@ -135,11 +140,18 @@ CatenaBase::GetSigfoxConfiguringInfo(
 		return true;
 
 	/* copy the data */
-	framDevID.get(pInfo->AppKey, sizeof(pInfo->AppKey));
-	framPAC.get(pInfo->DevEUI, sizeof(pInfo->DevEUI));
-	framKey.get(pInfo->AppEUI, sizeof(pInfo->AppEUI));
-	framRegion.get(pInfo->DevEUI, sizeof(pInfo->DevEUI));
-	framEncryption.get(pInfo->AppEUI, sizeof(pInfo->AppEUI));
+	framDevID.get(pInfo->DevID, sizeof(pInfo->DevID));
+	framPAC.get(pInfo->PAC, sizeof(pInfo->PAC));
+	framKey.get(pInfo->Key, sizeof(pInfo->Key));
+	framRegion.get(pInfo->Region, sizeof(pInfo->Region));
+	framEncryption.get(pInfo->Encryption, sizeof(pInfo->Encryption));
+
+	/* copy the data */
+	/* framSigfoxCredentials.get(pInfo->AppKey, sizeof(pInfo->AppKey));
+	framSigfoxCredentials.get(pInfo->DevEUI, sizeof(pInfo->DevEUI));
+	framSigfoxCredentials.get(pInfo->AppEUI, sizeof(pInfo->AppEUI));
+	framSigfoxCredentials.get(pInfo->DevEUI, sizeof(pInfo->DevEUI));
+	framSigfoxCredentials.get(pInfo->AppEUI, sizeof(pInfo->AppEUI)); */
 
 	return true;
 	}
